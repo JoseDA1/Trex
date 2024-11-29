@@ -36,7 +36,7 @@ public class Character{
     }
     public void jump(){
         if(ground-50 == y){
-            velocityY = -4;   
+            velocityY = -6;   
         }else{
             // System.out.println("No jump " + y);
         }

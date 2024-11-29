@@ -1,16 +1,16 @@
 // import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.awt.*;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameScreen extends JPanel implements Runnable, KeyListener{
-    private final double GRAVITY = 0.3;
+    private final double GRAVITY = 0.4;
     private final double GROUND = 300;
-    int width = 400;
+    int width = 600;
     int height = 400;
 
     public Character character;
@@ -18,22 +18,38 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
     private Thread thread;
     
     private Cactus cactus;
-    
+    private List<Image> cactusList;
     public Image dinoImg;
     public Image cactus1Img;
     
     // Logica
     public GameScreen(){
-        loadImg();
+        // Solución a la pantalla en blanco
+        setPreferredSize(new Dimension(width, height));
+        try {
+            // Toma la imagen en dinoImg
+            dinoImg = new ImageIcon(getClass().getResource("./resource/dino-run.gif")).getImage();
+            // cactus1Img = new ImageIcon(getClass().getResource("./resource/cactus1.png")).getImage();
+            
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Imagen no encontrada");
+        }
+        // loadImg();
         character = new Character(GROUND, GRAVITY);
-        System.out.println(cactus1Img);
-        cactus = new Cactus(cactus1Img);
+        // System.out.println(cactus1Img);
+        cactus = new Cactus();
+        cactusList = new ArrayList<Image>();
+        
+        cactusList.add(cactus.getRandomCactus());
+        System.out.println(cactusList);
         // permite recibir el focus del teclado
         setFocusable(true);
         // escucha los eventos del teclado
         addKeyListener(this);
         // setBackground(Color.RED);
         thread = new Thread(this);
+
         
     }
 
@@ -54,6 +70,7 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
                 if(cactus.getColision().intersects(character.getColision())){
                     System.out.println("COLISION");
                 }
+                revalidate();
                 repaint();
                 Thread.sleep(20); // Pausa para suavizar animación
             } catch (InterruptedException e) {
@@ -62,19 +79,6 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
         }
     }
     
-    
-
-    public void loadImg(){
-        try {
-            // Toma la imagen en dinoImg
-            dinoImg = new ImageIcon(getClass().getResource("./resource/dino-run.gif")).getImage();
-            cactus1Img = new ImageIcon(getClass().getResource("./resource/cactus1.png")).getImage();
-            
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println("Imagen no encontrada");
-        }
-    }
     // dibujo
     public void paint(Graphics graphics){
         // super para que grafique correctamente
@@ -84,8 +88,14 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
         graphics.drawRect(0, (int)GROUND, getWidth(), 0);
         // Dibujar el suelo
         // System.out.println(cactus1Img);
-        cactus.paint(graphics, cactus1Img);
+        // cactus.paint(graphics);
         character.paint(graphics, dinoImg);
+        for (Image imgCactus : cactusList) {
+            // System.out.println(imgCactus);
+            graphics.drawImage(imgCactus, cactus.positionX, cactus.positionY, null);
+            graphics.drawRect(cactus.positionX, cactus.positionY, imgCactus.getWidth(null), imgCactus.getHeight(null));
+            // graphics.drawImage(cactus1Img, 500, 240, null);
+        }
     }
 
     // saltos

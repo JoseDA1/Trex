@@ -28,7 +28,7 @@ public class App {
         // gameScreen.loadImg();
     }
     public static void main(String[] args) throws Exception {
-        int width = 400;
+        int width = 600;
         int height = 400;
         // llama a el metodo window y le pasa los parametros
         window(width, height);

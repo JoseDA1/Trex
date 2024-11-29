@@ -3,42 +3,68 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
+import java.util.Random;
+
 import javax.swing.ImageIcon;
-public class Cactus {
-    // private Image image;
-    private Image img;
+public class Cactus extends Entity{
+    // public Entity entity;
+
+    private Random random;
+    public Image imgCactus1, imgCactus2, imgCactus3,image;
     private Rectangle rectangle;
-    private int positionX, positionY;
-    public Cactus(Image img){
-        // this.img = new ImageIcon(getClass().getResource("./resource/cactus1.png")).getImage();
-        // System.out.println(this.img);
-        this.img = img;
-        System.out.println(img);
-        // System.out.println(this.img);
-        positionX = 400;
-        positionY = 240;
+    public int positionX, positionY;
+    public Cactus(){
+        random = new Random();
         try {
-            
+            imgCactus1 = new ImageIcon(getClass().getResource("./resource/cactus1.png")).getImage();
+            imgCactus2 = new ImageIcon(getClass().getResource("./resource/cactus2.png")).getImage();
+            imgCactus3 = new ImageIcon(getClass().getResource("./resource/cactus3.png")).getImage();
         } catch (Exception e) {
-            // TODO: handle exception
-            System.out.println("Imagen del cactus no cargada");
+            System.out.println("Imagenes de cactus no encontradas");
         }
+        // random();
+        positionX = 600;
+        positionY = 240;
+    
         rectangle = new Rectangle();
     }
     public void update(){
-        positionX -=2;
+        positionX -=5;
         rectangle.x = positionX;
         rectangle.y = positionY;
-        // rectangle.width = img.getWidth(null);
+        rectangle.width = imgCactus1.getWidth(null);
         // int right = rectangle.x + rectangle.width;
-        // rectangle.height = img.getHeight(null);
+        rectangle.height = imgCactus1.getHeight(null);
     }
+    // public void setImage(Image image){
+    //     this.image = image;
+    // }
     public Rectangle getColision(){
         return rectangle;
     }
+    // public void paint(Graphics graphics){
+    //     // System.out.println(img);
+    //     graphics.drawImage(image, positionX, positionY, null);
+    // }
 
-    public void paint(Graphics graphics, Image image){
-        System.out.println(image);
-        graphics.drawImage(image, positionX, positionY, null);
+    public Image getRandomCactus(){
+        positionY = 240;
+        positionX = 600;
+        Image img;
+        int randomValue = random.nextInt(3); // Genera un número aleatorio: 0, 1 o 2
+
+        if (randomValue == 0) {
+            img = imgCactus1;
+        } else if (randomValue == 1) {
+            img = imgCactus2;
+        } else {
+            img = imgCactus3;
+        }
+        // if(random.nextBoolean()){
+        //     img = imgCactus1;
+        // }else{
+        //     img = imgCactus2;
+        // }
+        return img;
     }
 }
