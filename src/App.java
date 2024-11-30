@@ -4,6 +4,8 @@ public class App {
 
     private static GameScreen gameScreen;
 
+    public static final int SCREEN_WIDTH = 600;
+
     public static void window(int width, int height){
     // inicializar el fram
     JFrame frame = new JFrame("TRex Game");
@@ -36,4 +38,6 @@ public class App {
         startGame();
         
     }
+
+
 }

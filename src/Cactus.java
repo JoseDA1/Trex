@@ -1,17 +1,13 @@
-import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-
 import java.util.Random;
-
 import javax.swing.ImageIcon;
 public class Cactus extends Entity{
     // public Entity entity;
 
     private Random random;
     public Image imgCactus1, imgCactus2, imgCactus3,image;
-    private Rectangle rectangle;
+    private final Rectangle rectangle;
     public int positionX, positionY;
     public Cactus(){
         random = new Random();
@@ -52,14 +48,11 @@ public class Cactus extends Entity{
         positionX = 600;
         Image img;
         int randomValue = random.nextInt(3); // Genera un número aleatorio: 0, 1 o 2
-
-        if (randomValue == 0) {
-            img = imgCactus1;
-        } else if (randomValue == 1) {
-            img = imgCactus2;
-        } else {
-            img = imgCactus3;
-        }
+        img = switch (randomValue) {
+            case 0 -> imgCactus1;
+            case 1 -> imgCactus2;
+            default -> imgCactus3;
+        };
         // if(random.nextBoolean()){
         //     img = imgCactus1;
         // }else{

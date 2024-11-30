@@ -1,11 +1,10 @@
 // import java.awt.Color;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.awt.*;
+import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GameScreen extends JPanel implements Runnable, KeyListener{
     private final double GRAVITY = 0.4;
@@ -13,7 +12,8 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
     int width = 600;
     int height = 400;
 
-    public Character character;
+    private final Land land;
+    private Character Character;
 
     private Thread thread;
     
@@ -36,10 +36,11 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
             System.out.println("Imagen no encontrada");
         }
         // loadImg();
-        character = new Character(GROUND, GRAVITY);
+        Character = new Character(GROUND, GRAVITY);
+        land = new Land(App.SCREEN_WIDTH, Character);
         // System.out.println(cactus1Img);
         cactus = new Cactus();
-        cactusList = new ArrayList<Image>();
+        cactusList = new ArrayList<>();
         
         cactusList.add(cactus.getRandomCactus());
         System.out.println(cactusList);
@@ -65,9 +66,10 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
         while (true) {
             // System.out.println(i++);
             try {
-                character.update();
+                Character.update();
                 cactus.update();
-                if(cactus.getColision().intersects(character.getColision())){
+                land.update();
+                if(cactus.getColision().intersects(Character.getColision())){
                     System.out.println("COLISION");
                 }
                 revalidate();
@@ -79,7 +81,9 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
         }
     }
     
+
     // dibujo
+    @Override
     public void paint(Graphics graphics){
         // super para que grafique correctamente
         super.paint(graphics);
@@ -89,7 +93,8 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
         // Dibujar el suelo
         // System.out.println(cactus1Img);
         // cactus.paint(graphics);
-        character.paint(graphics, dinoImg);
+        land.draw(graphics);
+        Character.paint(graphics, dinoImg);
         for (Image imgCactus : cactusList) {
             // System.out.println(imgCactus);
             graphics.drawImage(imgCactus, cactus.positionX, cactus.positionY, null);
@@ -106,7 +111,7 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
     public void keyPressed(KeyEvent e) {
         // System.out.println("Presionaste una tecla");
         if(e.getKeyCode() == KeyEvent.VK_SPACE){
-            character.jump();   
+            Character.jump();   
         }
     }
 

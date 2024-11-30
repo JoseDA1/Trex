@@ -69,5 +69,9 @@ public class Character{
     public void setVelocityY(double velocityY){
         this.velocityY = velocityY;
     }
+    public float getSpeedX() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getSpeedX'");
+    }
 
 }
