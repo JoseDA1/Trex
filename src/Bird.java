@@ -1,18 +1,19 @@
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
-import java.util.Random;
+// import java.util.Random;
 import javax.swing.ImageIcon;
-public class Cactus extends Entity{
+public class Bird extends Entity{
     // public Entity entity;
 
-    private Random random;
-    public Image imgCactus1, imgCactus2, imgCactus3,image;
+    // private Random random;
+    public Image imgBird, image;
     private final Rectangle rectangle;
     public int positionX, positionY;
-    public Cactus(int positionX, int positionY){
+    public int height, width;
+    public Bird(int positionX, int positionY){
         super(positionX, positionY);
-        random = new Random();
+        // random = new Random();
         
         // random();
         this.positionX = positionX;
@@ -20,16 +21,17 @@ public class Cactus extends Entity{
     
         rectangle = new Rectangle();
         try {
-            imgCactus1 = new ImageIcon(getClass().getResource("./resource/cactus1.png")).getImage();
-            imgCactus2 = new ImageIcon(getClass().getResource("./resource/cactus2.png")).getImage();
-            imgCactus3 = new ImageIcon(getClass().getResource("./resource/cactus3.png")).getImage();
+            image = new ImageIcon(getClass().getResource("./resource/bird.gif")).getImage();
+            // System.out.println("bird file encontrado");
             // System.out.println("Imagenes de cactus encontradas");
         } catch (Exception e) {
-            System.out.println("Imagenes de cactus no encontradas");
+            System.out.println("Imagenes de pajaros no encontradas " + e.getMessage());
         }
-        image = getRandomCactus();
+        // image = getRandomCactus();
         // System.out.println(image);
-        hitbox = new Rectangle(this.positionX, this.positionY, image.getWidth(null), image.getHeight(null));
+        height = image.getHeight(null) - 20;
+        width = image.getWidth(null) - 20;
+        hitbox = new Rectangle(this.positionX, this.positionY, width, height);
         // System.out.println(hitbox);
     }
 
@@ -38,8 +40,8 @@ public class Cactus extends Entity{
         positionX -=5;
         rectangle.x = positionX;
         rectangle.y = positionY;
-        rectangle.width = image.getWidth(null);
-        rectangle.height = image.getHeight(null);
+        rectangle.width = width;
+        rectangle.height = height;
     }
     @Override
     public void draw(Graphics graphics) {
@@ -56,20 +58,28 @@ public class Cactus extends Entity{
     //     graphics.drawImage(image, positionX, positionY, null);
     // }
 
-    public Image getRandomCactus(){
-        positionY = 240;
-        Image img;
+    // public Image getRandomCactus(){
+    //     positionY = 240;
+    //     Image img;
         
-        int randomValue = random.nextInt(3); // Genera un número aleatorio: 0, 1 o 2
-        img = switch (randomValue) {
-            case 0 -> imgCactus1;
-            case 1 -> imgCactus2;
-            default -> imgCactus3;
-        };
-        return img;
-    }
+    //     int randomValue = random.nextInt(3); // Genera un número aleatorio: 0, 1 o 2
+    //     img = switch (randomValue) {
+    //         case 0 -> imgCactus1;
+    //         case 1 -> imgCactus2;
+    //         default -> imgCactus3;
+    //     };
+    //     return img;
+    // }
 
     public boolean isOutOfScreen() {
         return positionX + image.getWidth(null) < 0; // Devuelve true si el cactus salió de la pantalla
     }
+    public int getX(){
+        return this.positionX;
+    }
+    
+    public int getY(){
+        return this.positionY;
+    }
+
 }

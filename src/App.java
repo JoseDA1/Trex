@@ -1,5 +1,7 @@
-// import java.awt.Graphics;
+// import java.awt.Gr
+import java.awt.Color;
 import javax.swing.*;
+
 public class App {
 
     private static GameScreen gameScreen;
@@ -10,6 +12,8 @@ public class App {
     public static void window(int width, int height){
     // inicializar el fram
     JFrame frame = new JFrame("TRex Game");
+    // Color blanco
+    frame.getContentPane().setBackground(Color.WHITE);
     frame.setVisible(true);
     frame.setSize(width, height);
     // Coloca la ventana en el centro de la pantalla
