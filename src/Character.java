@@ -1,7 +1,6 @@
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
-
 import javax.swing.ImageIcon;
 
 public class Character{
@@ -14,6 +13,8 @@ public class Character{
         private double ground;
         private double gravity;
         private Rectangle rectangle;
+
+        public static int score = 0;
     
     public Character(double ground, double gravity){
         
@@ -100,6 +101,9 @@ public class Character{
     public float getSpeedX() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getSpeedX'");
+    }
+    public void upScore() {
+        score += 1;
     }
 
 }
