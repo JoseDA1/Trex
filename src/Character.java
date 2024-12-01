@@ -9,10 +9,11 @@ public class Character{
         private double velocityY = 0;
         private int height;
         private int width;
-        private Image img, imgDinoRun;
+        private Image img, imgDinoRun, imgDinoCrouch;
         private double ground;
         private double gravity;
         private Rectangle rectangle;
+        private boolean isCrouch = false;
 
         public static int score = 0;
     
@@ -23,6 +24,7 @@ public class Character{
         rectangle = new Rectangle();
         try {
             // Toma la imagen en dinoImg
+            imgDinoCrouch = new ImageIcon(getClass().getResource("./resource/dino-duck.gif")).getImage();
             imgDinoRun = new ImageIcon(getClass().getResource("./resource/dino-run.gif")).getImage();
             img = imgDinoRun;
             // cactus1Img = new ImageIcon(getClass().getResource("./resource/cactus1.png")).getImage();
@@ -38,7 +40,11 @@ public class Character{
     }
     public void update(){
             y+=velocityY;
-            if(y >= this.ground){
+            if(isCrouch && y >= (this.ground)){
+                velocityY = 0;
+                y = this.ground+height; 
+            }
+            else if(y >= this.ground){
             velocityY=0;
             y = this.ground;
         }else{
@@ -55,9 +61,22 @@ public class Character{
     public void jump(){
         if(ground == y){
             velocityY = -11;   
-        }else{
-            // System.out.println("No jump " + y);
         }
+    }
+    public void crouch(){
+        if(y < ground){
+            velocityY = 8;
+        }
+        height = (imgDinoCrouch.getHeight(null) - 20);
+        width = (imgDinoCrouch.getWidth(null) - 20);
+        setImage(imgDinoCrouch);
+        isCrouch = true;
+    }
+    public void standUp(){
+        height = (imgDinoRun.getHeight(null) - 20);
+        width = (imgDinoRun.getWidth(null) - 20);
+        setImage(imgDinoRun);
+        isCrouch = false;
     }
     public void reset(){
         x = 50;
@@ -69,9 +88,6 @@ public class Character{
         // pinta el dino
         graphics.drawImage(img, (int)x, (int) y, width, height, null);
         graphics.drawRect((int)x, (int)y, width, height);
-        // cuadrado
-        // graphics.drawRect((int)x, (int)y, 50, 50);
-        
     }
 
     public void setImage(Image img){
