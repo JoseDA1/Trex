@@ -3,6 +3,7 @@ import javax.swing.*;
 public class App {
 
     private static GameScreen gameScreen;
+    
 
     public static final int SCREEN_WIDTH = 600;
 

@@ -18,9 +18,11 @@ public class Land {
 	
 	public Land(int width, Character Character) {
 		this.Character = Character;
+		
 		LAND1 = Resource.getResourceImage("bin/resource/land1.png");
 		LAND2 = Resource.getResourceImage("bin/resource/land2.png");
 		LAND3 = Resource.getResourceImage("bin/resource/land3.png");
+		// System.out.println("LAND 1 ES: " + LAND1);
 		int numberOfImageLand = width / LAND1.getWidth() + 2;
 		LIST_LAND = new ArrayList<>();
 		for(int i = 0; i < numberOfImageLand; i++) {
@@ -66,6 +68,7 @@ public class Land {
             }
 	}
 	
+
 	public void draw(Graphics g) {
 		for(ImageLand imgLand : LIST_LAND) {
 			g.drawImage(imgLand.image, (int) imgLand.posX, LAND_POSY, null);

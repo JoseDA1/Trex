@@ -11,14 +11,17 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
     private final double GROUND = 300;
     int width = 600;
     int height = 400;
-
+    private int cactusSpawnTimer = 0; // Temporizador para el spawn de cactus
+    private final int CACTUS_SPAWN_INTERVAL = 200; // Intervalo en frames para generar cactus
     private final Land land;
-    private Character Character;
+    private boolean isRunning = true;
+    private final List<Cactus> cactusList;
+    private Character character;
 
     private Thread thread;
     
     private Cactus cactus;
-    private List<Image> cactusList;
+    // private List<Image> cactusList;
     public Image dinoImg;
     public Image cactus1Img;
     
@@ -26,24 +29,9 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
     public GameScreen(){
         // Solución a la pantalla en blanco
         setPreferredSize(new Dimension(width, height));
-        try {
-            // Toma la imagen en dinoImg
-            dinoImg = new ImageIcon(getClass().getResource("./resource/dino-run.gif")).getImage();
-            // cactus1Img = new ImageIcon(getClass().getResource("./resource/cactus1.png")).getImage();
-            
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println("Imagen no encontrada");
-        }
-        // loadImg();
-        Character = new Character(GROUND, GRAVITY);
-        land = new Land(App.SCREEN_WIDTH, Character);
-        // System.out.println(cactus1Img);
-        cactus = new Cactus();
-        cactusList = new ArrayList<>();
-        
-        cactusList.add(cactus.getRandomCactus());
-        System.out.println(cactusList);
+        character = new Character(GROUND, GRAVITY);
+        land = new Land(App.SCREEN_WIDTH, character);
+        cactusList = new ArrayList<Cactus>();
         // permite recibir el focus del teclado
         setFocusable(true);
         // escucha los eventos del teclado
@@ -65,19 +53,53 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
     public void run() {
         while (true) {
             // System.out.println(i++);
-            try {
-                Character.update();
-                cactus.update();
-                land.update();
-                if(cactus.getColision().intersects(Character.getColision())){
-                    System.out.println("COLISION");
+                if(isRunning){
+
+                    character.update();
+                    land.update();
+                    
+                    // Incrementa el temporizador para el cactus
+                    cactusSpawnTimer++;
+                    if (cactusSpawnTimer >= CACTUS_SPAWN_INTERVAL) {
+                        // Crea un nuevo cactus en la posición (600, 240) y lo agrega a la lista
+                        cactusList.add(new Cactus(600, 240)); // Nueva instancia de Cactus en cada ciclo
+                        cactusSpawnTimer = 0; // Reinicia el temporizador
+                    }
+                    // Actualiza y verifica colisiones
+                for (int i = 0; i < cactusList.size(); i++) {
+                    Cactus cactus = cactusList.get(i);
+                    cactus.update();
+                    
+                    if (isColision(cactus, character)) {
+                        System.out.println("Colisión detectada");
+                        character.setImage(new ImageIcon(getClass().getResource("./resource/dino-dead.png")).getImage());
+                        isRunning = false;
+                    }
+    
+                    // Elimina cactus si salen de la pantalla
+                    if (cactus.isOutOfScreen()) {
+                        cactusList.remove(i);
+                        i--; // Ajusta el índice al eliminar un elemento
+                    }
                 }
-                revalidate();
-                repaint();
-                Thread.sleep(20); // Pausa para suavizar animación
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        
+                    // Actualiza la pantalla
+                    revalidate();
+                    repaint();
+                    try {
+                        Thread.sleep(16); // Pausa para suavizar animación
+                        
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }else{
+                    try {
+                        Thread.sleep(100);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            
         }
     }
     
@@ -87,32 +109,44 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
     public void paint(Graphics graphics){
         // super para que grafique correctamente
         super.paint(graphics);
-        // suelo
         // linea del suelo
-        graphics.drawRect(0, (int)GROUND, getWidth(), 0);
+        // graphics.drawRect(0, (int)GROUND, getWidth(), 0);
         // Dibujar el suelo
-        // System.out.println(cactus1Img);
-        // cactus.paint(graphics);
         land.draw(graphics);
-        Character.paint(graphics, dinoImg);
-        for (Image imgCactus : cactusList) {
-            // System.out.println(imgCactus);
-            graphics.drawImage(imgCactus, cactus.positionX, cactus.positionY, null);
-            graphics.drawRect(cactus.positionX, cactus.positionY, imgCactus.getWidth(null), imgCactus.getHeight(null));
-            // graphics.drawImage(cactus1Img, 500, 240, null);
+        character.paint(graphics);
+        for (Cactus cactus : cactusList) {
+            cactus.draw(graphics);
+        }
+        if(!isRunning){
+            graphics.setFont(new Font("Arial", Font.BOLD, 36));
+            graphics.drawString("Game Over", width / 2 - 100, height / 2);
         }
     }
 
-    // saltos
-    
+    // detectar colisiones
+    public boolean isColision(Cactus cac, Character cha){
+        Rectangle cacHitbox = cac.getHitbox();
+        Rectangle chaHitbox = cha.getHitbox();
+        return cacHitbox.intersects(chaHitbox);
+    }
 
     // Metodos de acciones del teclado
     @Override
     public void keyPressed(KeyEvent e) {
         // System.out.println("Presionaste una tecla");
         if(e.getKeyCode() == KeyEvent.VK_SPACE){
-            Character.jump();   
+            // Detectar si el juego está en pausa y reinciarlo
+            if(!isRunning){
+                System.out.println("Reiniciando juego...");
+                cactusList.clear();
+                character.reset();
+                isRunning = true;
+            }else{
+                System.out.println("Jump");
+                character.jump(); 
+            }   
         }
+        
     }
 
     @Override

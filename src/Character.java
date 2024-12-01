@@ -2,27 +2,44 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
 
+import javax.swing.ImageIcon;
+
 public class Character{
         private double x=50;
-        private double y=300;
+        private double y = 240;
         private double velocityY = 0;
-        private int height = 94;
-        private int width = 88;
-
+        private int height;
+        private int width;
+        private Image img, imgDinoRun;
         private double ground;
         private double gravity;
         private Rectangle rectangle;
     
     public Character(double ground, double gravity){
-        this.ground = ground;
+        
+        this.ground = (int) ground - 60;
         this.gravity = gravity;
         rectangle = new Rectangle();
+        try {
+            // Toma la imagen en dinoImg
+            imgDinoRun = new ImageIcon(getClass().getResource("./resource/dino-run.gif")).getImage();
+            img = imgDinoRun;
+            // cactus1Img = new ImageIcon(getClass().getResource("./resource/cactus1.png")).getImage();
+            
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Imagen no encontrada");
+        }
+        height = (img.getHeight(null) - 20);
+        width = (img.getWidth(null) - 20);
+        // y = this.ground + height;
+        
     }
     public void update(){
             y+=velocityY;
-            if(y >= this.ground-50){
+            if(y >= this.ground){
             velocityY=0;
-            y = this.ground-50;
+            y = this.ground;
         }else{
             velocityY+=this.gravity;
         }
@@ -31,22 +48,33 @@ public class Character{
         rectangle.width = width;
         rectangle.height = height;
     }
-    public Rectangle getColision(){
+    public Rectangle getHitbox(){
         return rectangle;
     }
     public void jump(){
-        if(ground-50 == y){
-            velocityY = -6;   
+        if(ground == y){
+            velocityY = -11;   
         }else{
             // System.out.println("No jump " + y);
         }
     }
-    public void paint(Graphics graphics, Image dinoImg){
+    public void reset(){
+        x = 50;
+        y = 240;
+        velocityY = 0;
+        setImage(imgDinoRun);
+    }
+    public void paint(Graphics graphics){
         // pinta el dino
-        graphics.drawImage(dinoImg, (int)x, (int) y, 50, 50, null);
+        graphics.drawImage(img, (int)x, (int) y, width, height, null);
+        graphics.drawRect((int)x, (int)y, width, height);
         // cuadrado
         // graphics.drawRect((int)x, (int)y, 50, 50);
         
+    }
+
+    public void setImage(Image img){
+        this.img = img;
     }
 
     public double getX(){

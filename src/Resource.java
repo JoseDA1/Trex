@@ -11,7 +11,8 @@ public class Resource {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            System.out.println("Archivo no encontrado");
+            System.out.println("Archivo no encontrado " + path);
+            
         }
         return img;
     }
