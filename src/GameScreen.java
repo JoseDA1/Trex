@@ -57,7 +57,7 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
 
                     character.update();
                     land.update();
-                    
+                    character.upScore();
                     // Incrementa el temporizador para el cactus
                     cactusSpawnTimer++;
                     if (cactusSpawnTimer >= CACTUS_SPAWN_INTERVAL) {
@@ -114,6 +114,7 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
         // Dibujar el suelo
         land.draw(graphics);
         character.paint(graphics);
+        graphics.drawString("HI " + Character.score, 500, 20);
         for (Cactus cactus : cactusList) {
             cactus.draw(graphics);
         }
@@ -140,6 +141,7 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
                 System.out.println("Reiniciando juego...");
                 cactusList.clear();
                 character.reset();
+                Character.score = 0;
                 isRunning = true;
             }else{
                 System.out.println("Jump");

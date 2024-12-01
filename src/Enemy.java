@@ -10,7 +10,7 @@ public class Enemy {
     public double positionY;
     Enemy(){
         enemyList = new ArrayList<Entity>();
-        cactus = new Cactus();
+        cactus = new Cactus(0, 0);
         enemyList.add(cactus);
     }
     public void setImage(Image image){
