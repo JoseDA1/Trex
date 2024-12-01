@@ -141,6 +141,7 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
                 System.out.println("Reiniciando juego...");
                 cactusList.clear();
                 character.reset();
+                Character.score = 0;
                 isRunning = true;
             }else{
                 System.out.println("Jump");
