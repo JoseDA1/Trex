@@ -46,6 +46,7 @@ public class Character{
             }
             else if(y >= this.ground){
             velocityY=0;
+            reproductorSonidos.detenerSonido();
             y = this.ground;
         }else{
             velocityY+=this.gravity;
@@ -61,6 +62,8 @@ public class Character{
     public void jump(){
         if(ground == y){
             velocityY = -11;   
+            reproductorSonidos.reproducirSonido("src\\sounds\\Chrome Dino Game jump sound effect.wav");
+            
         }
     }
     public void crouch(){
