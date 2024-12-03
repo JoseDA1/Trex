@@ -29,6 +29,10 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
     // private List<Image> cactusList;
     public Image dinoImg;
     public Image cactus1Img;
+
+        // Variables para medir el tiempo
+        private long startTime;
+        private long elapsedTime;
     
     // Logica
     public GameScreen(){
@@ -48,12 +52,12 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
         // setBackground(Color.RED);
         thread = new Thread(this);
 
-        
+        BaseDatos.crearTabla();
     }
 
     // iniciliza los hilos
     public void startGame(){
-        
+        startTime = System.currentTimeMillis(); // Inicia el contador de tiempo
         thread.start();
     }
 
@@ -99,6 +103,10 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
                             // System.out.println("Colisión detectada");
                             character.setImage(new ImageIcon(getClass().getResource("./resource/dino-dead.png")).getImage());
                             isRunning = false;
+                            elapsedTime = (System.currentTimeMillis() - startTime) / 1000; // Tiempo en segundos
+                            BaseDatos.guardarPuntaje(Character.score, (int) elapsedTime); // Guarda puntaje y tiempo
+                            System.out.println("Juego terminado. Puntaje: " + Character.score + " | Tiempo: " + elapsedTime + " segundos");
+                            BaseDatos.mostrarPuntajesEnConsola();
                         }
         
                         // Elimina cactus si salen de la pantalla
@@ -116,6 +124,10 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
                             // System.out.println("Colisión detectada");
                             character.setImage(new ImageIcon(getClass().getResource("./resource/dino-dead.png")).getImage());
                             isRunning = false;
+                            elapsedTime = (System.currentTimeMillis() - startTime) / 1000; // Tiempo en segundos
+                            BaseDatos.guardarPuntaje(Character.score, (int) elapsedTime); // Guarda puntaje y tiempo
+                            System.out.println("Juego terminado. Puntaje: " + Character.score + " | Tiempo: " + elapsedTime + " segundos");
+                            BaseDatos.mostrarPuntajesEnConsola();
                         }
         
                         // Elimina cactus si salen de la pantalla
@@ -145,7 +157,14 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
             
         }
     }
-    
+    private void handleGameOver() {
+        character.setImage(new ImageIcon(getClass().getResource("./resource/dino-dead.png")).getImage());
+        isRunning = false;
+        elapsedTime = (System.currentTimeMillis() - startTime) / 1000; // Tiempo en segundos
+        BaseDatos.guardarPuntaje(Character.score, (int) elapsedTime); // Guarda puntaje y tiempo
+        System.out.println("Juego terminado. Puntaje: " + Character.score + " | Tiempo: " + elapsedTime + " segundos");
+        BaseDatos.mostrarPuntajesEnConsola();
+    }
 
     // dibujo
     @Override
