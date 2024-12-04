@@ -50,7 +50,7 @@ public class BaseDatos {
         List<String> registros = leerTodos();
         for (String registro : registros) {
             String[] datos = registro.split(",");
-            System.out.println("Puntaje: " + datos[0] + ", Tiempo: " + datos[1] + " segundos");
+            // System.out.println("Puntaje: " + datos[0] + ", Tiempo: " + datos[1] + " segundos");
         }
     }
 

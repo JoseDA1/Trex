@@ -83,8 +83,7 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
                         }
                         // reduccion de intervalo para hacer el juego más dificil
                         if(spawnInterval > 50){
-                            spawnInterval -= 10;
-                            System.out.println(spawnInterval);
+                            spawnInterval -= 2;
                         }
                         // for (Bird bird : birdList) {
                         //     System.out.println("Bird position: " + bird.getX() + ", " + bird.getY());
@@ -101,12 +100,13 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
                         
                         if (isColision(cactus, character)) {
                             // System.out.println("Colisión detectada");
-                            character.setImage(new ImageIcon(getClass().getResource("./resource/dino-dead.png")).getImage());
-                            isRunning = false;
-                            elapsedTime = (System.currentTimeMillis() - startTime) / 1000; // Tiempo en segundos
-                            BaseDatos.guardarPuntaje(Character.score, (int) elapsedTime); // Guarda puntaje y tiempo
-                            System.out.println("Juego terminado. Puntaje: " + Character.score + " | Tiempo: " + elapsedTime + " segundos");
-                            BaseDatos.mostrarPuntajesEnConsola();
+                            // character.setImage(new ImageIcon(getClass().getResource("./resource/dino-dead.png")).getImage());
+                            // isRunning = false;
+                            // elapsedTime = (System.currentTimeMillis() - startTime) / 1000; // Tiempo en segundos
+                            // BaseDatos.guardarPuntaje(Character.score, (int) elapsedTime); // Guarda puntaje y tiempo
+                            // System.out.println("Juego terminado. Puntaje: " + Character.score + " | Tiempo: " + elapsedTime + " segundos");
+                            // BaseDatos.mostrarPuntajesEnConsola();
+                            handleGameOver();
                         }
         
                         // Elimina cactus si salen de la pantalla
@@ -122,12 +122,13 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
                         
                         if (isColision(bird, character)) {
                             // System.out.println("Colisión detectada");
-                            character.setImage(new ImageIcon(getClass().getResource("./resource/dino-dead.png")).getImage());
-                            isRunning = false;
-                            elapsedTime = (System.currentTimeMillis() - startTime) / 1000; // Tiempo en segundos
-                            BaseDatos.guardarPuntaje(Character.score, (int) elapsedTime); // Guarda puntaje y tiempo
-                            System.out.println("Juego terminado. Puntaje: " + Character.score + " | Tiempo: " + elapsedTime + " segundos");
-                            BaseDatos.mostrarPuntajesEnConsola();
+                            // character.setImage(new ImageIcon(getClass().getResource("./resource/dino-dead.png")).getImage());
+                            // isRunning = false;
+                            // elapsedTime = (System.currentTimeMillis() - startTime) / 1000; // Tiempo en segundos
+                            // BaseDatos.guardarPuntaje(Character.score, (int) elapsedTime); // Guarda puntaje y tiempo
+                            // System.out.println("Juego terminado. Puntaje: " + Character.score + " | Tiempo: " + elapsedTime + " segundos");
+                            // BaseDatos.mostrarPuntajesEnConsola();
+                            handleGameOver();
                         }
         
                         // Elimina cactus si salen de la pantalla
@@ -212,6 +213,7 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
             // Detectar si el juego está en pausa y reinciarlo
             if(!isRunning){
                 // System.out.println("Reiniciando juego...");
+                spawnInterval = 200;
                 cactusList.clear();
                 birdList.clear();
                 character.reset();

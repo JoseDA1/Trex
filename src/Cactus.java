@@ -23,14 +23,11 @@ public class Cactus extends Entity{
             imgCactus1 = new ImageIcon(getClass().getResource("./resource/cactus1.png")).getImage();
             imgCactus2 = new ImageIcon(getClass().getResource("./resource/cactus2.png")).getImage();
             imgCactus3 = new ImageIcon(getClass().getResource("./resource/cactus3.png")).getImage();
-            // System.out.println("Imagenes de cactus encontradas");
         } catch (Exception e) {
             System.out.println("Imagenes de cactus no encontradas");
         }
         image = getRandomCactus();
-        // System.out.println(image);
         hitbox = new Rectangle(this.positionX, this.positionY, image.getWidth(null), image.getHeight(null));
-        // System.out.println(hitbox);
     }
 
     @Override
@@ -46,15 +43,11 @@ public class Cactus extends Entity{
         graphics.drawImage(image, positionX, positionY, null);
 
         graphics.drawRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
-        // graphics.drawRect(positionX-100, 200, 10, 10);
     }
     public Rectangle getHitbox(){
         return rectangle;
     }
-    // public void paint(Graphics graphics){
-    //     // System.out.println(img);
-    //     graphics.drawImage(image, positionX, positionY, null);
-    // }
+    
 
     public Image getRandomCactus(){
         positionY = 240;

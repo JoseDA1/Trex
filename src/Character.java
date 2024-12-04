@@ -27,7 +27,6 @@ public class Character{
             imgDinoCrouch = new ImageIcon(getClass().getResource("./resource/dino-duck.gif")).getImage();
             imgDinoRun = new ImageIcon(getClass().getResource("./resource/dino-run.gif")).getImage();
             img = imgDinoRun;
-            // cactus1Img = new ImageIcon(getClass().getResource("./resource/cactus1.png")).getImage();
             
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -35,7 +34,6 @@ public class Character{
         }
         height = (img.getHeight(null) - 20);
         width = (img.getWidth(null) - 20);
-        // y = this.ground + height;
         
     }
     public void update(){
