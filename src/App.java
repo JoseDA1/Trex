@@ -19,7 +19,7 @@ public class App {
     // Coloca la ventana en el centro de la pantalla
     frame.setLocationRelativeTo(null);
     // Cambia el tamaño de la ventana si se ajusta manualmente
-    frame.setResizable(true);
+    frame.setResizable(false);
     // finaliza cuando se cierra la ventana
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

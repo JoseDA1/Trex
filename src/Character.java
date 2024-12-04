@@ -88,7 +88,7 @@ public class Character{
     public void paint(Graphics graphics){
         // pinta el dino
         graphics.drawImage(img, (int)x, (int) y, width, height, null);
-        graphics.drawRect((int)x, (int)y, width, height);
+        // graphics.drawRect((int)x, (int)y, width, height);
     }
 
     public void setImage(Image img){

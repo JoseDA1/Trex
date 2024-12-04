@@ -41,7 +41,7 @@ public class Bird extends Entity{
     public void draw(Graphics graphics) {
         graphics.drawImage(image, positionX, positionY, null);
 
-        graphics.drawRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+        // graphics.drawRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
     }
     public Rectangle getHitbox(){
         return rectangle;

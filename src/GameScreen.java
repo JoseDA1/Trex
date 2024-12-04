@@ -85,12 +85,7 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
                         if(spawnInterval > 50){
                             spawnInterval -= 2;
                         }
-                        // for (Bird bird : birdList) {
-                        //     System.out.println("Bird position: " + bird.getX() + ", " + bird.getY());
-                        // }
-                        // System.out.println(birdList);
-                        // System.out.println(cactusList);
-                        // Crea un nuevo cactus en la posición (600, 240) y lo agrega a la lista
+                        
                         spawnTimer = 0; // Reinicia el temporizador
                     }
                     // Actualiza y verifica colisiones de los cactus
@@ -99,13 +94,6 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
                         cactus.update();
                         
                         if (isColision(cactus, character)) {
-                            // System.out.println("Colisión detectada");
-                            // character.setImage(new ImageIcon(getClass().getResource("./resource/dino-dead.png")).getImage());
-                            // isRunning = false;
-                            // elapsedTime = (System.currentTimeMillis() - startTime) / 1000; // Tiempo en segundos
-                            // BaseDatos.guardarPuntaje(Character.score, (int) elapsedTime); // Guarda puntaje y tiempo
-                            // System.out.println("Juego terminado. Puntaje: " + Character.score + " | Tiempo: " + elapsedTime + " segundos");
-                            // BaseDatos.mostrarPuntajesEnConsola();
                             handleGameOver();
                         }
         
@@ -121,13 +109,6 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
                         bird.update();
                         
                         if (isColision(bird, character)) {
-                            // System.out.println("Colisión detectada");
-                            // character.setImage(new ImageIcon(getClass().getResource("./resource/dino-dead.png")).getImage());
-                            // isRunning = false;
-                            // elapsedTime = (System.currentTimeMillis() - startTime) / 1000; // Tiempo en segundos
-                            // BaseDatos.guardarPuntaje(Character.score, (int) elapsedTime); // Guarda puntaje y tiempo
-                            // System.out.println("Juego terminado. Puntaje: " + Character.score + " | Tiempo: " + elapsedTime + " segundos");
-                            // BaseDatos.mostrarPuntajesEnConsola();
                             handleGameOver();
                         }
         
@@ -192,7 +173,7 @@ public class GameScreen extends JPanel implements Runnable, KeyListener{
         }
     }
 
-    // detectar colisiones del cactus
+    // detectar colisiones del personaje
     public boolean isColision(Cactus cac , Character cha){
         Rectangle cacHitbox = cac.getHitbox();
         Rectangle chaHitbox = cha.getHitbox();
